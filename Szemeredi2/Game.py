@@ -94,3 +94,5 @@ class Game(object):
     def is_draw(self):
         free_slots = [x for x in self.list if x == Number.empty]
         return len(free_slots) < 2
+    def get_list(self):
+        return list(self.list)
