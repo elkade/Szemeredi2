@@ -17,4 +17,4 @@ computer = ComputerPlayer(finder, Number.selected_by_player_b)
 game_master = GameMaster(human, computer)
 game_master.play(game)
 
-#TODO: obs�u�y� remis - brak ruchu
+#TODO: obsluzyc remis - brak ruchu
