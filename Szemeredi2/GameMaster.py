@@ -1,7 +1,6 @@
 from Game import Game
 from GameState import GameState
 from Number import Number
-from PlayerCode import PlayerCode
 from colorama import Fore, Back, Style
 from InvalidOperationException import InvalidOperationException
 class GameMaster(object):
@@ -21,8 +20,6 @@ class GameMaster(object):
 
         player_1 = self.human
         player_2 = self.computer
-        player_1.code = PlayerCode.player_a
-        player_2.code = PlayerCode.player_b
 
         while game.is_running():
             self.mark(game, player_1)
@@ -50,7 +47,7 @@ class GameMaster(object):
         move_succeeded = False
         while not move_succeeded:
             try:
-                num = player.select()
+                num = player.select(game.list)
                 game.select(num, player.code)
                 self.print_numbers(game.list)
                 move_succeeded = True
@@ -64,7 +61,7 @@ class GameMaster(object):
         move_succeeded = False
         while not move_succeeded:
             try:
-                (num1, num2) = player.mark()
+                (num1, num2) = player.mark(game.list)
                 game.mark(num1, num2, player.code)
                 self.print_numbers(game.list)
                 move_succeeded = True

@@ -1,7 +1,6 @@
 from GameState import GameState
 from Number import Number
 from InvalidOperationException import InvalidOperationException
-from PlayerCode import PlayerCode
 class Game(object):
     def __init__(self, finder):
         self.state = GameState.notStarted
@@ -21,10 +20,12 @@ class Game(object):
         pass
 
     def mark(self, num1, num2, player_code):
+        if num1 == num2:
+            raise InvalidOperationException("Forbidden to mark two same numbers.")
         self.validate(num1)
         self.validate(num2)
-        player_a_marking = self.state == GameState.player_a_marking and player_code == PlayerCode.player_a
-        playes_b_marking = self.state == GameState.player_b_marking and player_code == PlayerCode.player_b
+        player_a_marking = self.state == GameState.player_a_marking and player_code == Number.selected_by_player_a
+        playes_b_marking = self.state == GameState.player_b_marking and player_code == Number.selected_by_player_b
         if player_a_marking or playes_b_marking:
             if self.list[num1] == Number.empty and self.list[num2] == Number.empty:
                 self.marked1 = num1
@@ -46,8 +47,8 @@ class Game(object):
         self.validate(num)
         if self.list[num] != Number.marked:
             raise InvalidOperationException("Selected number is not marked.")
-        player_a_selecting = self.state == GameState.player_a_selecting and player_code == PlayerCode.player_a
-        player_b_selecting = self.state == GameState.player_b_selecting and player_code == PlayerCode.player_b
+        player_a_selecting = self.state == GameState.player_a_selecting and player_code == Number.selected_by_player_a
+        player_b_selecting = self.state == GameState.player_b_selecting and player_code == Number.selected_by_player_b
 
         self.list[self.marked1] = Number.empty
         self.list[self.marked2] = Number.empty

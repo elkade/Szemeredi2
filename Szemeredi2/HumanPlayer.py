@@ -1,9 +1,12 @@
 class HumanPlayer(object):
 
-    def mark(self):
+    def __init__(self, code):
+        self.code = code
+
+    def mark(self, list):
         return self.read_vals('Mark two numbers: ')
 
-    def select(self):
+    def select(self, list):
         return self.read_val('Select a number: ')
 
     def read_vals(self, str):
