@@ -36,6 +36,8 @@ class GameMaster(object):
         else:
             print('Draw! No more moves.')
             pass
+        if game.state == GameState.draw:
+            return
         print("Progression:")
         for x in game.best:
             print(str(x), end=" ")

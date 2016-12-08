@@ -8,6 +8,8 @@ class Game(object):
         pass
     
     def start_new(self, n, k):
+        if n < 2:
+            raise InvalidOperationException("n cannot be lower than 2.")
         if k > n/2:
             raise InvalidOperationException("k cannot be greater than n/2.")
         self.k = k
@@ -58,12 +60,18 @@ class Game(object):
             if self.is_finished(num):
                 self.state = GameState.player_a_won
                 return
+            if(self.is_draw()):
+                self.state = GameState.draw
+                return
             self.state = GameState.player_a_marking
             return
         if player_b_selecting:
             self.list[num] = Number.selected_by_player_b
             if self.is_finished(num):
                 self.state = GameState.player_b_won
+                return
+            if(self.is_draw()):
+                self.state = GameState.draw
                 return
             self.state = GameState.player_b_marking
             return
@@ -82,3 +90,7 @@ class Game(object):
     def validate(self, num):
         if num < 0 or num >= len(self.list):
             raise InvalidOperationException("Selected number is out of range.")
+        pass
+    def is_draw(self):
+        free_slots = [x for x in self.list if x == Number.empty]
+        return len(free_slots) < 2
