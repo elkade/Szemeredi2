@@ -1,0 +1,4 @@
+class InvalidOperationException(Exception):
+    pass
+
+
