@@ -12,7 +12,7 @@ finder  = LongestSubProgressionFinder()
 game = Game(finder)
 
 human = HumanPlayer(Number.selected_by_player_a)
-human = ComputerPlayer(finder, Number.selected_by_player_a)
+#human = ComputerPlayer(finder, Number.selected_by_player_a)
 computer = ComputerPlayer(finder, Number.selected_by_player_b)
 
 game_master = GameMaster(human, computer)
