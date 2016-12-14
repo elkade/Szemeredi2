@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9fc6e9b2-0e0c-4dae-a334-8f4848a7fce6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Szemeredi2.py</StartupFile>
+    <StartupFile>Szemeredi2.pyw</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -30,10 +30,13 @@
     <Compile Include="Game.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GameMaster.py">
+    <Compile Include="CliHandler.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GameState.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GuiHandler.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HumanPlayer.py">
@@ -48,6 +51,10 @@
     <Compile Include="Number.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Program.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Szemeredi2.pyw" />
     <Compile Include="Szemeredi2.py" />
   </ItemGroup>
   <ItemGroup>

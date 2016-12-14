@@ -1,16 +1,11 @@
 from Game import Game
 from GameState import GameState
 from Number import Number
-from colorama import Fore, Back, Style
+from colorama import Fore, Back, Style, init
 from InvalidOperationException import InvalidOperationException
-class GameMaster(object):
-    
-    def __init__(self, human, computer):
-        self.human = human
-        self.computer = computer
-        pass
-
-    def play(self, game : Game):
+class CliHandler(object):
+    def run(self, game : Game, player_1, player_2):
+        init()
         ans = 'y'
         while ans=='y':
             n = self.read_val('n: ')
@@ -19,9 +14,6 @@ class GameMaster(object):
             game.start_new(n, k)
 
             self.print_numbers(game.get_list())
-
-            player_1 = self.human
-            player_2 = self.computer
 
             while game.is_running():
                 self.mark(game, player_1)
