@@ -36,7 +36,13 @@
     <Compile Include="GameState.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Window.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GuiHandler.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GuiHumanPlayer.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HumanPlayer.py">

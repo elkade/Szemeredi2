@@ -96,3 +96,6 @@ class Game(object):
         return len(free_slots) < 2
     def get_list(self):
         return list(self.list)
+
+    def get_state(self):
+        return self.state

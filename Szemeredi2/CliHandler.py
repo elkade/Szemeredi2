@@ -8,8 +8,13 @@ class CliHandler(object):
         init()
         ans = 'y'
         while ans=='y':
-            n = self.read_val('n: ')
-            k = self.read_val('k: ')
+            while game.get_state() == GameState.notStarted:
+                try:
+                    n = self.read_val('n: ')
+                    k = self.read_val('k: ')
+                    game.start_new(n, k)
+                except InvalidOperationException as ex:
+                    print(ex.args)
 
             game.start_new(n, k)
 
@@ -86,7 +91,7 @@ class CliHandler(object):
         while num == None:
             try:
                 num = int(input(str))
-            except ValueError:
-                pass
+            except Exception as ex:
+                print(ex.args)
             pass
         return num
