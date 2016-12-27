@@ -50,9 +50,9 @@ class GuiHandler(object):
                     print(str(x), end=" ")
                     pass
                 print()
-            self.clear()
             game.end()
             ans = input('once again? [y/n]: ')
+            self.clear()
         self.window.destroy()
         pass
     def mark1(self, game, player):
