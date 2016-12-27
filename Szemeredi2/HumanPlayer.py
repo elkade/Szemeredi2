@@ -1,13 +1,21 @@
+from Window import Window
+from time import sleep
 class HumanPlayer(object):
 
-    def __init__(self, code):
+    def __init__(self, code, window : Window = None):
         self.code = code
+        self.window = window
 
     def mark(self, list):
-        return self.read_vals('Mark two numbers: ')
+        if self.window == None:
+            return self.read_val('Mark a number: ')
+        return self.read_window_val(list)
 
     def select(self, list):
-        return self.read_val('Select a number: ')
+        if self.window == None:
+            return self.read_val('Select a number: ')
+        return self.read_window_val(list)
+
 
     def read_vals(self, str):
         (num1, num2) = (None, None)
@@ -29,3 +37,17 @@ class HumanPlayer(object):
                 pass
             pass
         return num
+
+    def read_window_vals(self, list):
+        number = self.window.get_number()
+        while number == None:
+            number = self.window.get_number()
+            sleep(0.05)
+        return (number, number + 1)
+
+    def read_window_val(self, list):
+        number = self.window.get_number()
+        while number == None:
+            number = self.window.get_number()
+            sleep(0.05)
+        return number

@@ -10,24 +10,93 @@ class GuiHandler(object):
     def __init__(self, window:Window):
         self.window = window
 
-    def run(self, game : Game, player_1, player_2):
+    def run(self, game : Game, player_a, player_b):
         self.game = game
-        
         self.marked = None
-
-        while game.get_state() == GameState.notStarted:
-            try:
-                n = self.get_input('n: ')
-                k = self.get_input('k: ')
+        ans = 'y'
+        while ans=='y':
+            while game.get_state() == GameState.notStarted:
+                try:
+                    n = self.get_input('n: ')
+                    k = self.get_input('k: ')
         
-                game.start_new(n, k)
+                    game.start_new(n, k)
+                except InvalidOperationException as ex:
+                    print(ex.args)
+
+            self.print_numbers(game.get_list())
+
+            player_1, player_2 = player_a, player_b
+
+            while game.is_running():
+                self.mark1(game, player_1)
+                self.mark2(game, player_1)
+                self.select(game, player_2)
+                (player_1, player_2) = (player_2, player_1)
+                pass
+
+            if game.state == GameState.player_a_won:
+                print('Human wins!')
+                pass
+            elif game.state == GameState.player_b_won:
+                print('Computer wins!')
+                pass
+            else:
+                print('Draw! No more moves.')
+                pass
+            if game.state != GameState.draw:
+                print("Progression:")
+                for x in game.best:
+                    print(str(x), end=" ")
+                    pass
+                print()
+            self.clear()
+            game.end()
+            ans = input('once again? [y/n]: ')
+        self.window.destroy()
+        pass
+    def mark1(self, game, player):
+        move_succeeded = False
+        while not move_succeeded:
+            try:
+                num = player.mark(game.get_list())
+                game.mark1(num, player.code)
+                self.print_numbers(game.get_list())
+                move_succeeded = True
+                pass
             except InvalidOperationException as ex:
                 print(ex.args)
-        self.buttons = [self.create_button(x) for x in range(n)]
-
-        self.frame = Frame(self.root)
-        self.frame.pack()        
-        self.root.mainloop()
+                move_succeeded = False
+            pass
+        pass
+    def mark2(self, game, player):
+        move_succeeded = False
+        while not move_succeeded:
+            try:
+                num = player.mark(game.get_list())
+                game.mark2(num, player.code)
+                self.print_numbers(game.get_list())
+                move_succeeded = True
+                pass
+            except InvalidOperationException as ex:
+                print(ex.args)
+                move_succeeded = False
+            pass
+        pass
+    def select(self, game, player):
+        move_succeeded = False
+        while not move_succeeded:
+            try:
+                num = player.select(game.get_list())
+                game.select(num, player.code)
+                self.print_numbers(game.get_list())
+                move_succeeded = True
+                pass
+            except InvalidOperationException as ex:
+                print(ex.args)
+                move_succeeded = False
+            pass
+        pass
 
     def get_input(self, str):
         input = self.window.get_input(str)
@@ -36,30 +105,11 @@ class GuiHandler(object):
             sleep(0.05)
         return input
 
-    def create_button(self, num):
-        button = Button(self.root, text = str(num), command = lambda: self.pressed(button, num, Number.empty))
-        button.pack(pady = 3, padx = 3)
-        return button
+    def print_numbers(self, numbers):
+        self.window.update_buttons(numbers)
 
-    def pressed(self, button, number, value):
-        if(self.game.get_state() == GameState.player_a_marking):
-            button.configure(bg = "YELLOW")
-            #button.configure(state = "disabled")
-            if self.marked == None:
-                self.marked = number
-            elif number != self.marked:
-                self.game.mark(number, self.marked, Number.selected_by_player_a)
-                self.marked = None
-        elif(self.game.get_state() == GameState.player_b_marking):
-            button.configure(bg = "YELLOW")
-            #button.configure(state = "disabled")
-            if self.marked == None:
-                self.marked = number
-            elif number != self.marked:
-                self.game.mark(number, self.marked, Number.selected_by_player_b)
-                self.marked = None
-
-
+    def clear(self):
+        self.window.clear()
 class takeInput(object):
 
     def __init__(self,requestMessage):

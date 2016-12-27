@@ -9,9 +9,8 @@ class ComputerPlayer(object):
     def mark(self, list):
         print("Computer marked:", end=' ')
         ind1 = self.find_best_marking(list)
-        ind2 = self.find_best_marking(list,  ind1)
-        print(str(ind1) + ' ' + str(ind2))
-        return (ind1, ind2)
+        print(ind1)
+        return ind1
 
     def select(self, list):
         print("Computer selected:", end=' ')

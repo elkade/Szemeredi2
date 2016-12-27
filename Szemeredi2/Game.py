@@ -14,26 +14,42 @@ class Game(object):
             raise InvalidOperationException("k cannot be greater than n/2.")
         self.k = k
         self.best = None
-        self.state = GameState.player_a_marking
+        self.state = GameState.player_a_marking1
         self.list = []
         for x in range(1, n + 1):
             self.list.append(Number.empty)
             pass
         pass
 
-    def mark(self, num1, num2, player_code):
-        if num1 == num2:
-            raise InvalidOperationException("Forbidden to mark two same numbers.")
-        self.validate(num1)
-        self.validate(num2)
-        player_a_marking = self.state == GameState.player_a_marking and player_code == Number.selected_by_player_a
-        playes_b_marking = self.state == GameState.player_b_marking and player_code == Number.selected_by_player_b
+    def mark1(self, num, player_code):
+        self.validate(num)
+        player_a_marking = self.state == GameState.player_a_marking1 and player_code == Number.selected_by_player_a
+        playes_b_marking = self.state == GameState.player_b_marking1 and player_code == Number.selected_by_player_b
         if player_a_marking or playes_b_marking:
-            if self.list[num1] == Number.empty and self.list[num2] == Number.empty:
-                self.marked1 = num1
-                self.marked2 = num2
-                self.list[num1] = Number.marked
-                self.list[num2] = Number.marked
+            if self.list[num] == Number.empty:
+                self.marked1 = num
+                self.list[num] = Number.marked
+                if player_a_marking:
+                    self.state = GameState.player_a_marking2
+                    pass
+                else:
+                    self.state = GameState.player_b_marking2
+                    pass
+                return
+            raise InvalidOperationException("Cannot mark this number.")
+        raise InvalidOperationException("Wrong player.")
+        pass
+
+    def mark2(self, num, player_code):
+        if num == self.marked1:
+            raise InvalidOperationException("Forbidden to mark two same numbers.")
+        self.validate(num)
+        player_a_marking = self.state == GameState.player_a_marking2 and player_code == Number.selected_by_player_a
+        playes_b_marking = self.state == GameState.player_b_marking2 and player_code == Number.selected_by_player_b
+        if player_a_marking or playes_b_marking:
+            if self.list[num] == Number.empty:
+                self.marked2 = num
+                self.list[num] = Number.marked
                 if player_a_marking:
                     self.state = GameState.player_b_selecting
                     pass
@@ -41,7 +57,7 @@ class Game(object):
                     self.state = GameState.player_a_selecting
                     pass
                 return
-            raise InvalidOperationException("Cannot mark these numbers.")
+            raise InvalidOperationException("Cannot mark this number.")
         raise InvalidOperationException("Wrong player.")
         pass
 
@@ -63,7 +79,7 @@ class Game(object):
             if(self.is_draw()):
                 self.state = GameState.draw
                 return
-            self.state = GameState.player_a_marking
+            self.state = GameState.player_a_marking1
             return
         if player_b_selecting:
             self.list[num] = Number.selected_by_player_b
@@ -73,7 +89,7 @@ class Game(object):
             if(self.is_draw()):
                 self.state = GameState.draw
                 return
-            self.state = GameState.player_b_marking
+            self.state = GameState.player_b_marking1
             return
         raise InvalidOperationException("Move is forbidden now.")
 
@@ -99,3 +115,5 @@ class Game(object):
 
     def get_state(self):
         return self.state
+    def end(self):
+        self.state = GameState.notStarted

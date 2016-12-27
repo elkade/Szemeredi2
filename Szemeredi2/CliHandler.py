@@ -4,6 +4,8 @@ from Number import Number
 from colorama import Fore, Back, Style, init
 from InvalidOperationException import InvalidOperationException
 class CliHandler(object):
+    def __init__(self, **kwargs):
+         self.window = None
     def run(self, game : Game, player_1, player_2):
         init()
         ans = 'y'
@@ -16,12 +18,11 @@ class CliHandler(object):
                 except InvalidOperationException as ex:
                     print(ex.args)
 
-            game.start_new(n, k)
-
             self.print_numbers(game.get_list())
 
             while game.is_running():
-                self.mark(game, player_1)
+                self.mark1(game, player_1)
+                self.mark2(game, player_1)
                 self.select(game, player_2)
                 (player_1, player_2) = (player_2, player_1)
                 pass
@@ -41,6 +42,7 @@ class CliHandler(object):
                     print(str(x), end=" ")
                     pass
                 print()
+            game.end()
             ans = input('once again? [y/n]: ')
         pass
 
@@ -58,12 +60,26 @@ class CliHandler(object):
                 move_succeeded = False
             pass
         pass
-    def mark(self, game, player):
+    def mark1(self, game, player):
         move_succeeded = False
         while not move_succeeded:
             try:
-                (num1, num2) = player.mark(game.get_list())
-                game.mark(num1, num2, player.code)
+                num = player.mark(game.get_list())
+                game.mark1(num, player.code)
+                self.print_numbers(game.get_list())
+                move_succeeded = True
+                pass
+            except InvalidOperationException as ex:
+                print(ex.args)
+                move_succeeded = False
+            pass
+        pass
+    def mark2(self, game, player):
+        move_succeeded = False
+        while not move_succeeded:
+            try:
+                num = player.mark(game.get_list())
+                game.mark2(num, player.code)
                 self.print_numbers(game.get_list())
                 move_succeeded = True
                 pass

@@ -42,9 +42,6 @@
     <Compile Include="GuiHandler.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GuiHumanPlayer.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="HumanPlayer.py">
       <SubType>Code</SubType>
     </Compile>
